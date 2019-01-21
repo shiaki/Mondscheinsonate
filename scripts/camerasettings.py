@@ -1,8 +1,10 @@
 #!/usr/bin/python
 
 '''
-    Settings for Sony A7rII. I have to write them explicitly because they
-    do not provide possible options for these fields.
+    Settings for Sony A7rII
+    -----------------------
+    I have to write them down explicitly because I cannot access options for
+    these fields with `gp_widget_count_choices`.
 '''
 
 speed_values = ['300/10', '250/10', '200/10', '150/10', '130/10', '100/10',
@@ -22,5 +24,5 @@ iso_values = ['50', '64', '80', '100', '125', '160', '250', '320', '400',
         '25600', '32000', '40000', '51200', '64000', '80000', '102400']
 iso_values_num = [float(x) for x in iso_values]
 
-fnum_values = ['5.6'] # fixed aperture
+fnum_values = ['5.6'] # use fixed aperture
 fnum_values_num = [5.6]

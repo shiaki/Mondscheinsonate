@@ -1,9 +1,22 @@
 #!/usr/bin/env python
 
 '''
-    A simple script for lunar eclipse photography.
-    It works for Sony A7rII + Simga EF-E adaptor + Canon 400/5.6
-    Please change these settings to fit your camera.
+    Sample script for lunar eclipse HDR photography.
+
+    Usage:
+        python ecl.py run
+
+    Tested for:
+          Raspberry Pi 3 Model B+ (Raspbian Nov 2018, Kernel v4.14, Python 3.6)
+        + Sony A7rII (Firmware: v3.30)
+        + Sigma MC-11 Mount Converter
+        + Canon EF 400mm f/5.6L USM
+
+    You may modify this script to fit your camera / lens / computer.
+    However, please note that every camera is different, and the approach used
+    here may not represent the best practice.
+
+    ** Please use at your own discretion
 '''
 
 import sys, os, json
@@ -13,12 +26,17 @@ from collections import OrderedDict
 import gphoto2 as gp
 
 from camerasettings import *
-desti_dir = './tmp/'
+desti_dir = './tmp/' # where to save your images.
 
-debug = True
-debug_time_offset = 3600. * (4.3 + 0.46)
+# a debug switch. You can test your script before the eclipse.
+debug = False
+debug_time_offset = 3600.
 
 def read_exposure_settings(camera):
+
+    '''
+    Get current exposure settings from your camera.
+    '''
 
     # get config keys
     config = gp.check_result(gp.gp_camera_get_config(camera))
@@ -38,6 +56,10 @@ def read_exposure_settings(camera):
     return dict(iso=iso_val, fnum=fnum_val, speed=speed_val)
 
 def update_exposure_settings(camera, speed=None, fnum=None, iso=None):
+
+    '''
+    Set exposure combination.
+    '''
 
     # get config
     config = gp.check_result(gp.gp_camera_get_config(camera))
@@ -65,6 +87,27 @@ def update_exposure_settings(camera, speed=None, fnum=None, iso=None):
 
 def bracket_by_speed(camera, speed, fnum, iso,
     plus_minus_steps, delta_step, images_per_step, i_event):
+
+    '''
+    HDR Bracketing by shutter speed.
+
+    Parameters
+    ----------
+    plus_minus_steps : int
+        How many exposure combinations to take below and above the exposure
+        settings given above. Total number of combinations is
+        (2 * plus_minus_steps + 1).
+
+    delta_step : int
+        Step size in shutter speed. For my camera, every step is 1/3 stops.
+
+    images_per_step : int
+        How many frames to take for each exposure combination.
+        Total number of frames is (2 * plus_minus_steps + 1) * images_per_step.
+
+    i_event : int
+        Index within the entire script (no effect, just for logging).
+    '''
 
     timestamp_i = int(time.time())
     print('Event:', i_event)
