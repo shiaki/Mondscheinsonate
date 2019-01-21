@@ -7,7 +7,7 @@ Sample script for lunar eclipse HDR photography.
 
 *Figure 1*: Jan 21, 2019 lunar eclipse. The weather was poor so I did not get a good shot.
 
-Lessions learned: the exposure settings during the partial phase recommended by Fred Espenak is pretty conservative. You may need deeper exposure to image the umbral region. This can be adjusted in `bracket_by_speed`.
+Lessions learned: the exposure settings during the partial phase recommended by Fred Espenak are pretty conservative. You may need deeper exposure to image the umbral region. This can be adjusted in `bracket_by_speed`.
 
 Dependencies:
 - libgphoto2 (v2.5.4-1)
